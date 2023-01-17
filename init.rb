@@ -18,9 +18,9 @@ end
 
 Redmine::Plugin.register :redmine_auto_percent do
   name 'Redmine Auto Done 100%'
-  author 'Wade Womersley'
+  author 'Wade Womersley / Agileware Inc.'
   description 'Automatically sets 100% done on Resolved or Closed'
-  version '0.0.2'
+  version '1.0.0'
   url ''
-  author_url 'http://www.xcitestudios.com/'
+  author_url 'https://agileware.jp/'
 end
