@@ -11,7 +11,7 @@ class IssueTest < ActiveSupport::TestCase
     )
 
     assert_equal 0, issue.done_ratio
-    issue.update(status: IssueStatus.find_by!(name: 'Closed'))
+    issue.reload.update(status: IssueStatus.find_by!(name: 'Closed'))
     assert_equal 100, issue.reload.done_ratio
   end
 end
