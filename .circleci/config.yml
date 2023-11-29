@@ -1,7 +1,6 @@
 version: 2.1
-
 orbs:
-  redmine-plugin: agileware-jp/redmine-plugin@3.1.0
+  redmine-plugin: agileware-jp/redmine-plugin@3.5.0
   plugin-test:
     commands:
       run-tests:
@@ -33,7 +32,6 @@ orbs:
               command: >-
                 RAILS_ENV=test bundle exec rake redmine:plugins:test PLUGIN=`cat .tested_plugin`
               working_directory: << parameters.redmine_root >>
-
 jobs:
   run-tests:
     executor:
@@ -63,25 +61,23 @@ jobs:
       - redmine-plugin/bundle-install
       - redmine-plugin/migrate-without-plugins
       - plugin-test/run-tests
-
 default_context: &default_context
   context:
     - lychee-ci-environment
-
 workflows:
   run-tests-workflow:
     jobs:
-        - run-tests:
-            <<: *default_context
-            name: test on supported maximum versions with PostgreSQL
-            database: pg
-            ruby_version: $RUBY_MAX_VERSION
-            redmine_version: $REDMINE_MAX_VERSION
-            db_version: $POSTGRES_VERSION
-        - run-tests:
-            <<: *default_context
-            name: test on supported minimum versions with MySQL
-            database: mysql
-            ruby_version: $RUBY_MIN_VERSION
-            redmine_version: $REDMINE_MIN_VERSION
-            db_version: $MYSQL_VERSION
+      - run-tests:
+          !!merge <<: *default_context
+          name: test on supported maximum versions with PostgreSQL
+          database: pg
+          ruby_version: $RUBY_MAX_VERSION
+          redmine_version: $REDMINE_MAX_VERSION
+          db_version: $POSTGRES_VERSION
+      - run-tests:
+          !!merge <<: *default_context
+          name: test on supported minimum versions with MySQL
+          database: mysql
+          ruby_version: $RUBY_MIN_VERSION
+          redmine_version: $REDMINE_MIN_VERSION
+          db_version: $MYSQL_VERSION
